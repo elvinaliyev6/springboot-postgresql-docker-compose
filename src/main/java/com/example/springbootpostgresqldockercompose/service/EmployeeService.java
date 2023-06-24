@@ -8,11 +8,13 @@ import com.example.springbootpostgresqldockercompose.exception.MyException;
 import com.example.springbootpostgresqldockercompose.mapper.EmployeeMapper;
 import com.example.springbootpostgresqldockercompose.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
+@Service
 public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
@@ -39,6 +41,7 @@ public class EmployeeService {
         Employee employee=employeeRepository.findById(empId)
                 .orElseThrow(() -> new MyException("Employee not found"));
         employeeMapper.update(employee,request);
+        employeeRepository.save(employee);
         return GenericResponse.success();
     }
 
